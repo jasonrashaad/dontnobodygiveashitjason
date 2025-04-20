@@ -2,7 +2,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 const CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
@@ -30,7 +29,6 @@ export default function PlaceholderPage() {
   const [message, setMessage] = useState<string>('');
   const [mask, setMask] = useState<[number, number][]>([]);
   const [revealed, setRevealed] = useState<boolean[][]>([]);
-  const [hitCount, setHitCount] = useState<number | null>(null);
 
   useEffect(() => {
     const initialGrid = generateGrid(rows, cols);
@@ -49,10 +47,6 @@ export default function PlaceholderPage() {
         setMessage(fallback);
         setMask(createMessageMask(rows, cols, fallback));
       });
-
-    fetch('/api/counter')
-      .then((res) => res.json())
-      .then((data) => setHitCount(data.count));
   }, []);
 
   useEffect(() => {
@@ -83,41 +77,19 @@ export default function PlaceholderPage() {
   );
 
   return (
-    <div className="min-h-screen bg-black text-green-500 font-mono flex flex-col items-center justify-center p-4 relative overflow-hidden">
-      <AnimatePresence>
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-20 pointer-events-none"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.2 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1 }}
-        />
-      </AnimatePresence>
-
+    <div className="min-h-screen bg-black text-green-500 font-mono flex flex-col items-center justify-center p-4">
       <div className="grid grid-cols-[repeat(50,minmax(0,1fr))] gap-0.5">
         {displayGrid.flat().map((char, i) => (
-          <motion.span
-            key={i}
-            className="text-xs opacity-80"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: i * 0.001, duration: 0.3 }}
-          >
+          <span key={i} className="text-xs opacity-80">
             {char || ' '}
-          </motion.span>
+          </span>
         ))}
       </div>
-
       <div className="mt-10 text-center">
         <h1 className="text-lg text-white font-semibold mb-2">
           dontnobodygiveashitjason.org
         </h1>
-        <p className="text-sm text-gray-400 italic mb-2">Idle System. Awaiting Signal…</p>
-        {hitCount !== null && (
-          <p className="text-base text-green-400">
-            {hitCount.toLocaleString()} humans have glimpsed the void
-          </p>
-        )}
+        <p className="text-sm text-gray-400 italic">Idle System. Awaiting Signal…</p>
       </div>
     </div>
   );
