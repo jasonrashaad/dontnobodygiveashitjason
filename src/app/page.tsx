@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ThreadsEmbed from './components/ThreadsEmbed';
 
 const CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
@@ -22,7 +23,7 @@ function createMessageMask(rows: number, cols: number, message: string): [number
   return message.split('').map((_, i) => [midRow, startCol + i]);
 }
 
-export default function PlaceholderPage() {
+export default function Home() {
   const rows = 20;
   const cols = 50;
 
@@ -119,6 +120,8 @@ export default function PlaceholderPage() {
           </p>
         )}
       </div>
+
+      <ThreadsEmbed />
     </div>
   );
 }
