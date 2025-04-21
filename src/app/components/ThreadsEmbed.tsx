@@ -29,7 +29,7 @@ export default function ThreadsEmbed() {
           ease: "easeInOut"
         }
       }}
-      className="w-full max-w-[550px] mx-auto my-8"
+      className="w-full max-w-[350px] mx-auto my-8"
     >
       <Link 
         href="https://www.threads.net/@jasonrashaad" 
@@ -39,9 +39,9 @@ export default function ThreadsEmbed() {
         <Image 
           src="/threads-post.JPG"
           alt="Threads post"
-          width={540}
-          height={540}
-          className="rounded-lg cursor-pointer"
+          width={350}
+          height={350}
+          className="rounded-lg cursor-pointer w-full h-auto"
         />
       </Link>
     </motion.div>
