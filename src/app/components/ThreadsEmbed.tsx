@@ -37,7 +37,7 @@ export default function ThreadsEmbed() {
         rel="noopener noreferrer"
       >
         <Image 
-          src="/threads-post.jpg"
+          src="/threads-post.JPG"
           alt="Threads post"
           width={540}
           height={540}
