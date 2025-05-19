@@ -24,6 +24,7 @@
             width: 100%;
             height: 100%;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 1;
@@ -39,16 +40,50 @@
             animation: pulse 3s infinite alternate;
         }
 
+        #timestamp {
+            font-size: 2vw;
+            opacity: 0.6;
+            margin-top: 20px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        #threads-post {
+            position: absolute;
+            width: 320px;
+            max-width: 80vw;
+            height: auto;
+            right: 30px;
+            top: 30px;
+            transform: rotate(3deg);
+            z-index: 2;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+            animation: stickyWiggle 10s ease-in-out infinite;
+        }
+
+        #threads-post img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            display: block;
+        }
+
         #floating-image {
             position: absolute;
-            width: 100px;
-            height: 100px;
-            background-image: url('jason-image.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            animation: bounce 8s infinite linear;
+            width: 80px;
+            height: 80px;
             z-index: 2;
+            animation: bounce 15s infinite linear;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        #floating-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         @keyframes pulse {
@@ -66,27 +101,49 @@
             0% {
                 top: 10%;
                 left: 10%;
-                transform: rotate(0deg);
+                transform: rotate(0deg) scale(0.8);
             }
             25% {
                 top: 70%;
                 left: 30%;
-                transform: rotate(90deg);
+                transform: rotate(90deg) scale(1);
             }
             50% {
                 top: 30%;
                 left: 80%;
-                transform: rotate(180deg);
+                transform: rotate(180deg) scale(0.8);
             }
             75% {
                 top: 80%;
                 left: 60%;
-                transform: rotate(270deg);
+                transform: rotate(270deg) scale(1);
             }
             100% {
                 top: 10%;
                 left: 10%;
-                transform: rotate(360deg);
+                transform: rotate(360deg) scale(0.8);
+            }
+        }
+
+        @keyframes stickyWiggle {
+            0%, 100% { transform: rotate(3deg); }
+            50% { transform: rotate(-2deg); }
+        }
+
+        @media (max-width: 768px) {
+            #threads-post {
+                width: 220px;
+                right: 20px;
+                top: 20px;
+            }
+            
+            #timestamp {
+                font-size: 4vw;
+            }
+
+            #floating-image {
+                width: 60px;
+                height: 60px;
             }
         }
     </style>
@@ -94,10 +151,30 @@
 <body>
     <div id="message-container">
         <div id="message"></div>
+        <div id="timestamp"></div>
     </div>
-    <div id="floating-image"></div>
+    
+    <div id="threads-post">
+        <img src="threadspost.JPG" alt="Jason Rashaad Threads post">
+    </div>
+    
+    <div id="floating-image">
+        <img src="jasonicon.JPG" alt="Jason profile icon">
+    </div>
 
     <script>
+        // Format date for display
+        function formatDate(date) {
+            const options = { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            return date.toLocaleDateString('en-US', options);
+        }
+        
         // Load the message from the text file
         async function loadMessage() {
             try {
@@ -107,15 +184,38 @@
                 }
                 const text = await response.text();
                 document.getElementById('message').textContent = text;
+                
+                // Get file modification date (or fallback to current date)
+                const lastModified = response.headers.get('last-modified');
+                const modDate = lastModified ? new Date(lastModified) : new Date();
+                document.getElementById('timestamp').textContent = `Last updated: ${formatDate(modDate)}`;
+                
                 document.title = text.substring(0, 50) + (text.length > 50 ? '...' : '');
             } catch (error) {
                 console.error('Error loading message:', error);
                 document.getElementById('message').textContent = "Don't nobody give a shit Jason";
+                document.getElementById('timestamp').textContent = `Last updated: ${formatDate(new Date())}`;
             }
         }
 
+        // Extract profile image from the Threads post for the bouncing element
+        function extractProfileImage() {
+            // If we don't have a separate profile image, create a clone of the threads post
+            // This is a fallback in case jasonicon.JPG is not available
+            const threadsImg = document.querySelector('#threads-post img');
+            const floatingImg = document.querySelector('#floating-image img');
+            
+            floatingImg.onerror = function() {
+                this.onerror = null;
+                this.src = threadsImg.src;
+            };
+        }
+
         // Load the message when the page loads
-        window.addEventListener('DOMContentLoaded', loadMessage);
+        window.addEventListener('DOMContentLoaded', () => {
+            loadMessage();
+            extractProfileImage();
+        });
     </script>
 </body>
 </html>
