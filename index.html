@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Don't Nobody Give a Shit Jason</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #000;
+            color: rgba(255, 255, 255, 0.8);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        #message-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        #message {
+            font-size: 10vw;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            max-width: 90%;
+            animation: pulse 3s infinite alternate;
+        }
+
+        #floating-image {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-image: url('jason-image.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: bounce 8s infinite linear;
+            z-index: 2;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.7;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+            100% {
+                opacity: 1;
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6);
+            }
+        }
+
+        @keyframes bounce {
+            0% {
+                top: 10%;
+                left: 10%;
+                transform: rotate(0deg);
+            }
+            25% {
+                top: 70%;
+                left: 30%;
+                transform: rotate(90deg);
+            }
+            50% {
+                top: 30%;
+                left: 80%;
+                transform: rotate(180deg);
+            }
+            75% {
+                top: 80%;
+                left: 60%;
+                transform: rotate(270deg);
+            }
+            100% {
+                top: 10%;
+                left: 10%;
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="message-container">
+        <div id="message"></div>
+    </div>
+    <div id="floating-image"></div>
+
+    <script>
+        // Load the message from the text file
+        async function loadMessage() {
+            try {
+                const response = await fetch('message.txt');
+                if (!response.ok) {
+                    throw new Error('Failed to load message');
+                }
+                const text = await response.text();
+                document.getElementById('message').textContent = text;
+                document.title = text.substring(0, 50) + (text.length > 50 ? '...' : '');
+            } catch (error) {
+                console.error('Error loading message:', error);
+                document.getElementById('message').textContent = "Don't nobody give a shit Jason";
+            }
+        }
+
+        // Load the message when the page loads
+        window.addEventListener('DOMContentLoaded', loadMessage);
+    </script>
+</body>
+</html>

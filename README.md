@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Don't Nobody Give a Shit Jason - Simple Site
 
-## Getting Started
+This is a straightforward static site implementation for dontnobodygiveashitjason.org.
 
-First, run the development server:
+## How It Works
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. The site displays text from `message.txt` in big ghostly letters
+2. A floating image bounces around the screen
+3. You can easily update the site by editing just the text file
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deployment Instructions
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### First-time Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Create a new GitHub repository
+2. Upload these files to the repository:
+   - `index.html` (the main site file)
+   - `message.txt` (contains the text to display)
+   - `jason-image.png` (your current site image)
+3. Connect the repository to Vercel:
+   - Go to https://vercel.com
+   - Import your GitHub repository
+   - Configure the project (use default settings)
+   - Deploy
 
-## Learn More
+### Updating the Site
 
-To learn more about Next.js, take a look at the following resources:
+To update the message displayed on the site:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Go to your GitHub repository on your phone
+2. Navigate to the `message.txt` file
+3. Click the edit button (pencil icon)
+4. Update the text
+5. Commit changes directly to the main branch
+6. Vercel will automatically deploy the updated site
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Customizing the Site
 
-## Deploy on Vercel
+You can easily customize the site by editing the HTML file:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Change the background color in the CSS `body` section
+- Adjust the text size with the `font-size` property in the `#message` section
+- Modify the floating image animation in the `@keyframes bounce` section
+- Adjust the text animation in the `@keyframes pulse` section
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Files
+
+- `index.html` - The main HTML file with all the code
+- `message.txt` - Contains the text to display on the site
+- `jason-image.png` - Your image that bounces around the screen
